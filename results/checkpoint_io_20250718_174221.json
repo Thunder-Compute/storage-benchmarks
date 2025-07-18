@@ -1,0 +1,94 @@
+{
+  "benchmark": "checkpoint_io",
+  "device": "cuda",
+  "timestamp": "2025-07-18T17:42:21.534882",
+  "results": [
+    {
+      "benchmark": "checkpoint_io",
+      "test": "save_checkpoint_small",
+      "timestamp": "2025-07-18T17:42:19.806184",
+      "metrics": {
+        "model_size": "small",
+        "model_params_mb": 0.8970108032226562,
+        "checkpoint_size_mb": 0.8999958038330078,
+        "save_time_s": 0.0036338299998988077,
+        "write_throughput_MB_s": 0.0,
+        "write_iops": 0.0
+      }
+    },
+    {
+      "benchmark": "checkpoint_io",
+      "test": "load_checkpoint_small",
+      "timestamp": "2025-07-18T17:42:19.810773",
+      "metrics": {
+        "model_size": "small",
+        "checkpoint_size_mb": 0.8999958038330078,
+        "load_time_s": 0.002573878000021068,
+        "read_throughput_MB_s": 62.22371456560453,
+        "read_iops": 1165.556409424007
+      }
+    },
+    {
+      "benchmark": "checkpoint_io",
+      "test": "save_checkpoint_medium",
+      "timestamp": "2025-07-18T17:42:19.832161",
+      "metrics": {
+        "model_size": "medium",
+        "model_params_mb": 7.873443603515625,
+        "checkpoint_size_mb": 7.877689361572266,
+        "save_time_s": 0.009909029000027658,
+        "write_throughput_MB_s": 0.0,
+        "write_iops": 0.0
+      }
+    },
+    {
+      "benchmark": "checkpoint_io",
+      "test": "load_checkpoint_medium",
+      "timestamp": "2025-07-18T17:42:19.841525",
+      "metrics": {
+        "model_size": "medium",
+        "checkpoint_size_mb": 7.877689361572266,
+        "load_time_s": 0.002248799999961193,
+        "read_throughput_MB_s": 0.0,
+        "read_iops": 0.0
+      }
+    },
+    {
+      "benchmark": "checkpoint_io",
+      "test": "save_checkpoint_large",
+      "timestamp": "2025-07-18T17:42:20.884544",
+      "metrics": {
+        "model_size": "large",
+        "model_params_mb": 404.2030334472656,
+        "checkpoint_size_mb": 404.2376403808594,
+        "save_time_s": 0.479449324999905,
+        "write_throughput_MB_s": 0.0,
+        "write_iops": 0.0
+      }
+    },
+    {
+      "benchmark": "checkpoint_io",
+      "test": "load_checkpoint_large",
+      "timestamp": "2025-07-18T17:42:21.428363",
+      "metrics": {
+        "model_size": "large",
+        "checkpoint_size_mb": 404.2376403808594,
+        "load_time_s": 0.1502450929999668,
+        "read_throughput_MB_s": 0.0,
+        "read_iops": 0.0
+      }
+    },
+    {
+      "benchmark": "checkpoint_io",
+      "test": "incremental_saves",
+      "timestamp": "2025-07-18T17:42:21.534748",
+      "metrics": {
+        "num_saves": 10,
+        "avg_save_time_s": 0.00781407910001235,
+        "min_save_time_s": 0.0073312729998633586,
+        "max_save_time_s": 0.008301103999883708,
+        "total_time_s": 0.0781407910001235
+      }
+    }
+  ]
+}

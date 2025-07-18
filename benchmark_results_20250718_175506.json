@@ -1,0 +1,199 @@
+{
+  "metadata": {
+    "start_time": "2025-07-18T17:54:43.871102",
+    "device": "cuda",
+    "cuda_device": "NVIDIA GeForce RTX 4090",
+    "platform": "linux",
+    "python_version": "3.10.12",
+    "torch_version": "2.5.0.dev20240705+cu121",
+    "end_time": "2025-07-18T17:55:06.349129",
+    "total_elapsed_seconds": 22.47802495956421
+  },
+  "benchmarks": {
+    "tensor_io": {
+      "status": "completed",
+      "results": [
+        {
+          "benchmark": "tensor_io",
+          "test": "single_small",
+          "timestamp": "2025-07-18T17:54:44.191708",
+          "metrics": {
+            "tensor_shape": [
+              2000,
+              2000
+            ],
+            "size_MB": 15.2587890625,
+            "actual_file_size_MB": 15.25993824005127,
+            "save_time": 0.02532825700018293,
+            "load_time": 0.012556973999835463,
+            "write_throughput_MB_s": 602.4867103938916,
+            "read_throughput_MB_s": 1215.2560195036817
+          }
+        },
+        {
+          "benchmark": "tensor_io",
+          "test": "single_medium",
+          "timestamp": "2025-07-18T17:54:44.820003",
+          "metrics": {
+            "tensor_shape": [
+              4096,
+              4096
+            ],
+            "size_MB": 64.0,
+            "actual_file_size_MB": 64.00115394592285,
+            "save_time": 0.09333512700004576,
+            "load_time": 0.02890388699961477,
+            "write_throughput_MB_s": 685.71347147673,
+            "read_throughput_MB_s": 2214.2749847719742
+          }
+        },
+        {
+          "benchmark": "tensor_io",
+          "test": "single_large",
+          "timestamp": "2025-07-18T17:54:47.291899",
+          "metrics": {
+            "tensor_shape": [
+              8192,
+              8192
+            ],
+            "size_MB": 256.0,
+            "actual_file_size_MB": 256.00114917755127,
+            "save_time": 0.3542370669997581,
+            "load_time": 0.11337946000003285,
+            "write_throughput_MB_s": 722.6831210685416,
+            "read_throughput_MB_s": 2257.9146979309753
+          }
+        },
+        {
+          "benchmark": "tensor_io",
+          "test": "single_xlarge",
+          "timestamp": "2025-07-18T17:54:52.051307",
+          "metrics": {
+            "tensor_shape": [
+              16384,
+              8192
+            ],
+            "size_MB": 512.0,
+            "actual_file_size_MB": 512.0011539459229,
+            "save_time": 0.7037082780002493,
+            "load_time": 0.22938070600002902,
+            "write_throughput_MB_s": 727.5758577132177,
+            "read_throughput_MB_s": 2232.102092953965
+          }
+        }
+      ]
+    },
+    "checkpoint_io": {
+      "status": "completed",
+      "results": [
+        {
+          "benchmark": "checkpoint_io",
+          "test": "small",
+          "timestamp": "2025-07-18T17:54:52.307701",
+          "metrics": {
+            "num_params": 5000000,
+            "checkpoint_size_MB": 19.07801628112793,
+            "save_time": 0.02708197599986306,
+            "load_time": 0.001953649999904883,
+            "write_throughput_MB_s": 704.4543677767234,
+            "read_throughput_MB_s": 9765.319418553363
+          }
+        },
+        {
+          "benchmark": "checkpoint_io",
+          "test": "medium",
+          "timestamp": "2025-07-18T17:54:53.026641",
+          "metrics": {
+            "num_params": 25000000,
+            "checkpoint_size_MB": 95.38193702697754,
+            "save_time": 0.13082231099997443,
+            "load_time": 0.009245727000234183,
+            "write_throughput_MB_s": 729.0953377745802,
+            "read_throughput_MB_s": 10316.326344543986
+          }
+        },
+        {
+          "benchmark": "checkpoint_io",
+          "test": "large",
+          "timestamp": "2025-07-18T17:54:56.258050",
+          "metrics": {
+            "num_params": 100000000,
+            "checkpoint_size_MB": 381.52638053894043,
+            "save_time": 0.5245886180000525,
+            "load_time": 0.17254733900017527,
+            "write_throughput_MB_s": 727.2868061710448,
+            "read_throughput_MB_s": 2211.14033255855
+          }
+        },
+        {
+          "benchmark": "checkpoint_io",
+          "test": "xlarge",
+          "timestamp": "2025-07-18T17:55:05.639969",
+          "metrics": {
+            "num_params": 250000000,
+            "checkpoint_size_MB": 953.8117160797119,
+            "save_time": 1.2798527989998547,
+            "load_time": 0.7312352700000702,
+            "write_throughput_MB_s": 745.2511076469664,
+            "read_throughput_MB_s": 1304.3841773108406
+          }
+        }
+      ]
+    },
+    "dataset_loading": {
+      "status": "completed",
+      "results": [
+        {
+          "benchmark": "dataset_loading",
+          "test": "sequential_loading",
+          "timestamp": "2025-07-18T17:55:05.845257",
+          "metrics": {
+            "num_images": 100,
+            "total_size_MB": 2.9308366775512695,
+            "total_time": 0.03500884999994014,
+            "images_per_second": 2856.420590798355,
+            "read_throughput_MB_s": 83.71702234024485
+          }
+        }
+      ]
+    },
+    "dataloader": {
+      "status": "completed",
+      "results": [
+        {
+          "benchmark": "dataloader",
+          "test": "workers_0",
+          "timestamp": "2025-07-18T17:55:05.999320",
+          "metrics": {
+            "num_workers": 0,
+            "batch_size": 32,
+            "total_time": 0.11181602499982546,
+            "samples_per_second": 894.3261934070371
+          }
+        },
+        {
+          "benchmark": "dataloader",
+          "test": "workers_2",
+          "timestamp": "2025-07-18T17:55:06.197421",
+          "metrics": {
+            "num_workers": 2,
+            "batch_size": 32,
+            "total_time": 0.19664229799991517,
+            "samples_per_second": 508.5375883882477
+          }
+        },
+        {
+          "benchmark": "dataloader",
+          "test": "workers_4",
+          "timestamp": "2025-07-18T17:55:06.346509",
+          "metrics": {
+            "num_workers": 4,
+            "batch_size": 32,
+            "total_time": 0.14761725000016668,
+            "samples_per_second": 677.4276041579632
+          }
+        }
+      ]
+    }
+  }
+}

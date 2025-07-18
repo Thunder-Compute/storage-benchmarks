@@ -1,0 +1,549 @@
+#!/usr/bin/env python3
+"""
+Self-contained PyTorch Storage Benchmark Suite
+
+This script runs all storage benchmarks and saves results to a timestamped file.
+Simply run: ./run-benchmarks
+"""
+
+import time
+import json
+import os
+import sys
+import tempfile
+import shutil
+import numpy as np
+from datetime import datetime
+from typing import Dict, List, Any, Tuple
+
+# Check for required dependencies
+try:
+    import torch
+    import torchvision
+    import psutil
+    from PIL import Image
+except ImportError as e:
+    print(f"Error: Missing required dependency - {e}")
+    print("\nPlease install dependencies with:")
+    print("pip install torch torchvision numpy Pillow psutil")
+    sys.exit(1)
+
+
+# ============================================================================
+# Base Benchmark Class
+# ============================================================================
+
+class BenchmarkBase:
+    def __init__(self, name: str):
+        self.name = name
+        self.results = []
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        
+    def measure_time(self, func, *args, **kwargs):
+        torch.cuda.synchronize() if torch.cuda.is_available() else None
+        start_time = time.perf_counter()
+        result = func(*args, **kwargs)
+        torch.cuda.synchronize() if torch.cuda.is_available() else None
+        end_time = time.perf_counter()
+        return result, end_time - start_time
+    
+    def measure_io_stats(self, func, *args, **kwargs):
+        disk_io_start = psutil.disk_io_counters()
+        result, elapsed_time = self.measure_time(func, *args, **kwargs)
+        disk_io_end = psutil.disk_io_counters()
+        
+        io_stats = {
+            "read_bytes": disk_io_end.read_bytes - disk_io_start.read_bytes,
+            "write_bytes": disk_io_end.write_bytes - disk_io_start.write_bytes,
+            "read_count": disk_io_end.read_count - disk_io_start.read_count,
+            "write_count": disk_io_end.write_count - disk_io_start.write_count,
+        }
+        
+        return result, elapsed_time, io_stats
+    
+    def add_result(self, test_name: str, metrics: Dict[str, Any]):
+        result = {
+            "benchmark": self.name,
+            "test": test_name,
+            "timestamp": datetime.now().isoformat(),
+            "metrics": metrics
+        }
+        self.results.append(result)
+        
+    def calculate_throughput(self, bytes_transferred: int, elapsed_time: float) -> float:
+        return (bytes_transferred / (1024 * 1024)) / elapsed_time
+    
+    def calculate_iops(self, operations: int, elapsed_time: float) -> float:
+        return operations / elapsed_time
+    
+    def run(self):
+        raise NotImplementedError("Subclasses must implement run()")
+
+
+# ============================================================================
+# Tensor I/O Benchmark
+# ============================================================================
+
+class TensorIOBenchmark(BenchmarkBase):
+    def __init__(self, data_dir: str = None):
+        super().__init__("tensor_io")
+        self.data_dir = data_dir or tempfile.mkdtemp()
+        self.temp_created = data_dir is None
+        
+        self.tensor_configs = [
+            ("small", (2000, 2000)),      # ~15 MB
+            ("medium", (4096, 4096)),      # ~64 MB
+            ("large", (8192, 8192)),       # ~256 MB
+            ("xlarge", (16384, 8192)),     # ~512 MB
+        ]
+        
+    def cleanup(self):
+        if self.temp_created and os.path.exists(self.data_dir):
+            shutil.rmtree(self.data_dir)
+            
+    def get_tensor_size_mb(self, shape: Tuple) -> float:
+        num_elements = np.prod(shape)
+        bytes_per_element = 4
+        return (num_elements * bytes_per_element) / (1024 * 1024)
+    
+    def single_tensor_test(self, name: str, shape: Tuple):
+        print(f"  - Testing {name} tensor {shape}")
+        
+        tensor = torch.randn(*shape, dtype=torch.float32)
+        tensor_size_mb = self.get_tensor_size_mb(shape)
+        
+        save_path = os.path.join(self.data_dir, f"{name}_tensor.pt")
+        
+        # Warmup run
+        torch.save(tensor, save_path)
+        torch.load(save_path, weights_only=False)
+        
+        # Multiple runs for better measurement
+        num_runs = 3
+        save_times = []
+        load_times = []
+        
+        for _ in range(num_runs):
+            # Clear caches before measurement
+            if hasattr(os, 'sync'):
+                os.sync()
+            
+            def save_tensor():
+                torch.save(tensor, save_path)
+                if hasattr(os, 'sync'):
+                    os.sync()  # Force write to disk
+                
+            _, save_time = self.measure_time(save_tensor)
+            save_times.append(save_time)
+            
+            # Clear caches before read
+            if hasattr(os, 'sync'):
+                os.sync()
+            
+            # Drop page cache if possible (Linux) - requires root
+            # Silently skip if not root
+            pass
+            
+            def load_tensor():
+                return torch.load(save_path, weights_only=False)
+                
+            _, load_time = self.measure_time(load_tensor)
+            load_times.append(load_time)
+        
+        # Get actual file size
+        actual_size_bytes = os.path.getsize(save_path)
+        actual_size_mb = actual_size_bytes / (1024 * 1024)
+        
+        os.remove(save_path)
+        
+        # Use median times to avoid outliers
+        save_time = sorted(save_times)[len(save_times)//2]
+        load_time = sorted(load_times)[len(load_times)//2]
+        
+        # Calculate throughput based on actual file size
+        write_throughput = actual_size_mb / save_time if save_time > 0 else 0
+        read_throughput = actual_size_mb / load_time if load_time > 0 else 0
+        
+        self.add_result(f"single_{name}", {
+            "tensor_shape": shape,
+            "size_MB": tensor_size_mb,
+            "actual_file_size_MB": actual_size_mb,
+            "save_time": save_time,
+            "load_time": load_time,
+            "write_throughput_MB_s": write_throughput,
+            "read_throughput_MB_s": read_throughput,
+        })
+        
+    def run(self):
+        print("\nRunning Tensor I/O Benchmark...")
+        os.makedirs(self.data_dir, exist_ok=True)
+        
+        for name, shape in self.tensor_configs:
+            self.single_tensor_test(name, shape)
+            
+        self.cleanup()
+        return self.results
+
+
+# ============================================================================
+# Checkpoint I/O Benchmark
+# ============================================================================
+
+class CheckpointIOBenchmark(BenchmarkBase):
+    def __init__(self, data_dir: str = None):
+        super().__init__("checkpoint_io")
+        self.data_dir = data_dir or tempfile.mkdtemp()
+        self.temp_created = data_dir is None
+        
+    def cleanup(self):
+        if self.temp_created and os.path.exists(self.data_dir):
+            shutil.rmtree(self.data_dir)
+            
+    def create_model_checkpoint(self, num_params: int) -> Dict:
+        state_dict = {}
+        remaining = num_params
+        layer_idx = 0
+        
+        while remaining > 0:
+            layer_size = min(remaining, 1000000)
+            param_shape = (int(np.sqrt(layer_size)), int(np.sqrt(layer_size)))
+            state_dict[f'layer_{layer_idx}.weight'] = torch.randn(*param_shape)
+            state_dict[f'layer_{layer_idx}.bias'] = torch.randn(param_shape[0])
+            remaining -= np.prod(param_shape) + param_shape[0]
+            layer_idx += 1
+            
+        checkpoint = {
+            'epoch': 100,
+            'model_state_dict': state_dict,
+            'optimizer_state_dict': {
+                'state': {},
+                'param_groups': [{'lr': 0.001, 'momentum': 0.9}]
+            },
+            'loss': 0.1234,
+        }
+        
+        return checkpoint
+    
+    def test_checkpoint_size(self, name: str, num_params: int):
+        print(f"  - Testing {name} checkpoint (~{num_params/1e6:.1f}M params)")
+        
+        checkpoint = self.create_model_checkpoint(num_params)
+        checkpoint_path = os.path.join(self.data_dir, f"{name}_checkpoint.pth")
+        
+        # Warmup
+        torch.save(checkpoint, checkpoint_path)
+        checkpoint_size = os.path.getsize(checkpoint_path) / (1024 * 1024)
+        torch.load(checkpoint_path, weights_only=False)
+        
+        # Multiple runs
+        num_runs = 3
+        save_times = []
+        load_times = []
+        
+        for _ in range(num_runs):
+            # Clear caches before measurement
+            if hasattr(os, 'sync'):
+                os.sync()
+            
+            def save_checkpoint():
+                torch.save(checkpoint, checkpoint_path)
+                if hasattr(os, 'sync'):
+                    os.sync()  # Force write to disk
+                
+            _, save_time = self.measure_time(save_checkpoint)
+            save_times.append(save_time)
+            
+            # Clear caches before read
+            if hasattr(os, 'sync'):
+                os.sync()
+            
+            # Drop page cache if possible (Linux) - requires root
+            # Silently skip if not root
+            pass
+            
+            def load_checkpoint():
+                return torch.load(checkpoint_path, weights_only=False)
+                
+            _, load_time = self.measure_time(load_checkpoint)
+            load_times.append(load_time)
+        
+        os.remove(checkpoint_path)
+        
+        # Use median times
+        save_time = sorted(save_times)[len(save_times)//2]
+        load_time = sorted(load_times)[len(load_times)//2]
+        
+        # Calculate throughput based on actual file size
+        write_throughput = checkpoint_size / save_time if save_time > 0 else 0
+        read_throughput = checkpoint_size / load_time if load_time > 0 else 0
+        
+        self.add_result(name, {
+            "num_params": num_params,
+            "checkpoint_size_MB": checkpoint_size,
+            "save_time": save_time,
+            "load_time": load_time,
+            "write_throughput_MB_s": write_throughput,
+            "read_throughput_MB_s": read_throughput,
+        })
+        
+    def run(self):
+        print("\nRunning Checkpoint I/O Benchmark...")
+        os.makedirs(self.data_dir, exist_ok=True)
+        
+        model_sizes = [
+            ("small", int(5e6)),      # ~20 MB
+            ("medium", int(25e6)),    # ~100 MB
+            ("large", int(100e6)),    # ~400 MB
+            ("xlarge", int(250e6)),   # ~1 GB
+        ]
+        
+        for name, num_params in model_sizes:
+            self.test_checkpoint_size(name, num_params)
+            
+        self.cleanup()
+        return self.results
+
+
+# ============================================================================
+# Dataset Loading Benchmark
+# ============================================================================
+
+class DatasetLoadingBenchmark(BenchmarkBase):
+    def __init__(self, data_dir: str = None, num_samples: int = 100):
+        super().__init__("dataset_loading")
+        self.data_dir = data_dir or tempfile.mkdtemp()
+        self.temp_created = data_dir is None
+        self.num_samples = num_samples
+        
+    def cleanup(self):
+        if self.temp_created and os.path.exists(self.data_dir):
+            shutil.rmtree(self.data_dir)
+            
+    def create_synthetic_dataset(self):
+        os.makedirs(self.data_dir, exist_ok=True)
+        
+        for i in range(self.num_samples):
+            img = Image.fromarray(np.random.randint(0, 255, (224, 224, 3), dtype=np.uint8))
+            img.save(os.path.join(self.data_dir, f"img_{i:04d}.jpg"))
+            
+    def test_image_loading(self):
+        print(f"  - Testing image loading ({self.num_samples} images)")
+        
+        image_paths = [os.path.join(self.data_dir, f"img_{i:04d}.jpg") 
+                      for i in range(self.num_samples)]
+        
+        # Calculate total size of images
+        total_size_bytes = sum(os.path.getsize(path) for path in image_paths)
+        total_size_mb = total_size_bytes / (1024 * 1024)
+        
+        # Clear caches before measurement
+        if hasattr(os, 'sync'):
+            os.sync()
+        
+        def load_all_images():
+            images = []
+            for path in image_paths:
+                img = Image.open(path)
+                images.append(np.array(img))
+            return images
+            
+        _, elapsed_time = self.measure_time(load_all_images)
+        
+        read_throughput = total_size_mb / elapsed_time if elapsed_time > 0 else 0
+        
+        self.add_result("sequential_loading", {
+            "num_images": self.num_samples,
+            "total_size_MB": total_size_mb,
+            "total_time": elapsed_time,
+            "images_per_second": self.num_samples / elapsed_time if elapsed_time > 0 else 0,
+            "read_throughput_MB_s": read_throughput,
+        })
+        
+    def run(self):
+        print("\nRunning Dataset Loading Benchmark...")
+        self.create_synthetic_dataset()
+        self.test_image_loading()
+        self.cleanup()
+        return self.results
+
+
+# ============================================================================
+# DataLoader Benchmark
+# ============================================================================
+
+class DataLoaderBenchmark(BenchmarkBase):
+    def __init__(self, data_dir: str = None, num_samples: int = 100):
+        super().__init__("dataloader")
+        self.data_dir = data_dir or tempfile.mkdtemp()
+        self.temp_created = data_dir is None
+        self.num_samples = num_samples
+        
+    def cleanup(self):
+        if self.temp_created and os.path.exists(self.data_dir):
+            shutil.rmtree(self.data_dir)
+            
+    def create_dataset(self):
+        os.makedirs(self.data_dir, exist_ok=True)
+        # Create a subdirectory for ImageFolder compatibility
+        class_dir = os.path.join(self.data_dir, "class_0")
+        os.makedirs(class_dir, exist_ok=True)
+        
+        for i in range(self.num_samples):
+            img = Image.fromarray(np.random.randint(0, 255, (224, 224, 3), dtype=np.uint8))
+            img.save(os.path.join(class_dir, f"img_{i:04d}.jpg"))
+            
+    def test_dataloader_workers(self, num_workers: int):
+        print(f"  - Testing with {num_workers} workers")
+        
+        transform = torchvision.transforms.Compose([
+            torchvision.transforms.ToTensor(),
+            torchvision.transforms.Normalize(mean=[0.485, 0.456, 0.406], 
+                                           std=[0.229, 0.224, 0.225])
+        ])
+        
+        dataset = torchvision.datasets.ImageFolder(
+            root=self.data_dir,
+            transform=transform
+        )
+        
+        dataloader = torch.utils.data.DataLoader(
+            dataset,
+            batch_size=32,
+            shuffle=False,
+            num_workers=num_workers,
+            pin_memory=torch.cuda.is_available()
+        )
+        
+        def iterate_dataloader():
+            count = 0
+            for batch in dataloader:
+                count += 1
+            return count
+            
+        _, elapsed_time, _ = self.measure_io_stats(iterate_dataloader)
+        
+        self.add_result(f"workers_{num_workers}", {
+            "num_workers": num_workers,
+            "batch_size": 32,
+            "total_time": elapsed_time,
+            "samples_per_second": len(dataset) / elapsed_time,
+        })
+        
+    def run(self):
+        print("\nRunning DataLoader Benchmark...")
+        self.create_dataset()
+        
+        for num_workers in [0, 2, 4]:
+            self.test_dataloader_workers(num_workers)
+            
+        self.cleanup()
+        return self.results
+
+
+# ============================================================================
+# Main Runner
+# ============================================================================
+
+def run_all_benchmarks():
+    print("PyTorch Storage Benchmark Suite")
+    print("=" * 60)
+    print(f"Start time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"Device: {'CUDA' if torch.cuda.is_available() else 'CPU'}")
+    if torch.cuda.is_available():
+        print(f"GPU: {torch.cuda.get_device_name(0)}")
+    print("=" * 60)
+    
+    start_time = time.time()
+    all_results = {
+        "metadata": {
+            "start_time": datetime.now().isoformat(),
+            "device": "cuda" if torch.cuda.is_available() else "cpu",
+            "cuda_device": torch.cuda.get_device_name(0) if torch.cuda.is_available() else None,
+            "platform": sys.platform,
+            "python_version": sys.version.split()[0],
+            "torch_version": torch.__version__,
+        },
+        "benchmarks": {}
+    }
+    
+    # Run benchmarks
+    benchmarks = [
+        TensorIOBenchmark(),
+        CheckpointIOBenchmark(),
+        DatasetLoadingBenchmark(num_samples=100),
+        DataLoaderBenchmark(num_samples=100),
+    ]
+    
+    for benchmark in benchmarks:
+        try:
+            results = benchmark.run()
+            all_results["benchmarks"][benchmark.name] = {
+                "status": "completed",
+                "results": results
+            }
+            print(f"✓ {benchmark.name} completed")
+        except Exception as e:
+            all_results["benchmarks"][benchmark.name] = {
+                "status": "failed",
+                "error": str(e)
+            }
+            print(f"✗ {benchmark.name} failed: {e}")
+    
+    # Calculate summary
+    total_time = time.time() - start_time
+    all_results["metadata"]["end_time"] = datetime.now().isoformat()
+    all_results["metadata"]["total_elapsed_seconds"] = total_time
+    
+    # Save results
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    output_file = f"benchmark_results_{timestamp}.json"
+    
+    with open(output_file, 'w') as f:
+        json.dump(all_results, f, indent=2)
+    
+    # Print summary
+    print("\n" + "=" * 60)
+    print("BENCHMARK SUMMARY")
+    print("=" * 60)
+    print(f"Total time: {total_time:.2f} seconds")
+    print("\nKey Results:")
+    
+    for bench_name, bench_data in all_results["benchmarks"].items():
+        if bench_data["status"] == "completed":
+            print(f"\n{bench_name.upper()}:")
+            
+            # Extract key metrics
+            if bench_name == "tensor_io":
+                for result in bench_data["results"]:
+                    if result["test"].startswith("single_"):
+                        print(f"  {result['test']}: {result['metrics']['read_throughput_MB_s']:.1f} MB/s read, "
+                              f"{result['metrics']['write_throughput_MB_s']:.1f} MB/s write")
+                              
+            elif bench_name == "checkpoint_io":
+                for result in bench_data["results"]:
+                    print(f"  {result['test']}: {result['metrics']['read_throughput_MB_s']:.1f} MB/s read, "
+                          f"{result['metrics']['write_throughput_MB_s']:.1f} MB/s write")
+                          
+            elif bench_name == "dataset_loading":
+                for result in bench_data["results"]:
+                    print(f"  {result['test']}: {result['metrics']['images_per_second']:.1f} images/sec")
+                    
+            elif bench_name == "dataloader":
+                for result in bench_data["results"]:
+                    print(f"  {result['test']}: {result['metrics']['samples_per_second']:.1f} samples/sec")
+    
+    print(f"\nResults saved to: {output_file}")
+    print("=" * 60)
+    
+    return output_file
+
+
+if __name__ == "__main__":
+    try:
+        run_all_benchmarks()
+    except KeyboardInterrupt:
+        print("\nBenchmark interrupted by user")
+        sys.exit(1)
+    except Exception as e:
+        print(f"\nError running benchmarks: {e}")
+        sys.exit(1)

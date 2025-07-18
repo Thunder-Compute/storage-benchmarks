@@ -1,0 +1,311 @@
+{
+  "benchmark": "dataloader",
+  "device": "cuda",
+  "timestamp": "2025-07-18T17:44:09.279136",
+  "results": [
+    {
+      "benchmark": "dataloader",
+      "test": "dataloader_config_32_0",
+      "timestamp": "2025-07-18T17:44:00.389850",
+      "metrics": {
+        "batch_size": 32,
+        "num_workers": 0,
+        "pin_memory": true,
+        "prefetch_factor": 2,
+        "total_time_s": 0.27101800200011894,
+        "total_batches": 16,
+        "total_samples": 500,
+        "batches_per_second": 59.03666871543455,
+        "samples_per_second": 1844.8958973573297,
+        "read_throughput_MB_s": 0.0,
+        "read_iops": 0.0,
+        "avg_batch_time_ms": 16.938625125007434
+      }
+    },
+    {
+      "benchmark": "dataloader",
+      "test": "dataloader_config_32_1",
+      "timestamp": "2025-07-18T17:44:01.254589",
+      "metrics": {
+        "batch_size": 32,
+        "num_workers": 1,
+        "pin_memory": true,
+        "prefetch_factor": 2,
+        "total_time_s": 0.5860166530001152,
+        "total_batches": 16,
+        "total_samples": 500,
+        "batches_per_second": 27.302978367744192,
+        "samples_per_second": 853.218073992006,
+        "read_throughput_MB_s": 0.0,
+        "read_iops": 0.0,
+        "avg_batch_time_ms": 36.6260408125072
+      }
+    },
+    {
+      "benchmark": "dataloader",
+      "test": "dataloader_config_32_2",
+      "timestamp": "2025-07-18T17:44:02.052609",
+      "metrics": {
+        "batch_size": 32,
+        "num_workers": 2,
+        "pin_memory": true,
+        "prefetch_factor": 2,
+        "total_time_s": 0.5987111990000358,
+        "total_batches": 16,
+        "total_samples": 500,
+        "batches_per_second": 26.72407001359439,
+        "samples_per_second": 835.1271879248247,
+        "read_throughput_MB_s": 0.0,
+        "read_iops": 0.0,
+        "avg_batch_time_ms": 37.419449937502236
+      }
+    },
+    {
+      "benchmark": "dataloader",
+      "test": "dataloader_config_32_4",
+      "timestamp": "2025-07-18T17:44:02.578241",
+      "metrics": {
+        "batch_size": 32,
+        "num_workers": 4,
+        "pin_memory": true,
+        "prefetch_factor": 2,
+        "total_time_s": 0.34319156199990175,
+        "total_batches": 16,
+        "total_samples": 500,
+        "batches_per_second": 46.62119286022708,
+        "samples_per_second": 1456.9122768820964,
+        "read_throughput_MB_s": 0.0,
+        "read_iops": 0.0,
+        "avg_batch_time_ms": 21.44947262499386
+      }
+    },
+    {
+      "benchmark": "dataloader",
+      "test": "dataloader_config_32_8",
+      "timestamp": "2025-07-18T17:44:03.232261",
+      "metrics": {
+        "batch_size": 32,
+        "num_workers": 8,
+        "pin_memory": true,
+        "prefetch_factor": 2,
+        "total_time_s": 0.35050741999998536,
+        "total_batches": 16,
+        "total_samples": 500,
+        "batches_per_second": 45.648106393869405,
+        "samples_per_second": 1426.503324808419,
+        "read_throughput_MB_s": 0.0,
+        "read_iops": 0.0,
+        "avg_batch_time_ms": 21.906713749999085
+      }
+    },
+    {
+      "benchmark": "dataloader",
+      "test": "dataloader_config_8_4",
+      "timestamp": "2025-07-18T17:44:03.618455",
+      "metrics": {
+        "batch_size": 8,
+        "num_workers": 4,
+        "pin_memory": true,
+        "prefetch_factor": 2,
+        "total_time_s": 0.25784186099986073,
+        "total_batches": 63,
+        "total_samples": 500,
+        "batches_per_second": 244.33581015781618,
+        "samples_per_second": 1939.1730964906046,
+        "read_throughput_MB_s": 0.0,
+        "read_iops": 0.0,
+        "avg_batch_time_ms": 4.092727952378742
+      }
+    },
+    {
+      "benchmark": "dataloader",
+      "test": "dataloader_config_16_4",
+      "timestamp": "2025-07-18T17:44:04.031136",
+      "metrics": {
+        "batch_size": 16,
+        "num_workers": 4,
+        "pin_memory": true,
+        "prefetch_factor": 2,
+        "total_time_s": 0.26502154500008146,
+        "total_batches": 32,
+        "total_samples": 500,
+        "batches_per_second": 120.74490019288871,
+        "samples_per_second": 1886.6390655138862,
+        "read_throughput_MB_s": 0.0,
+        "read_iops": 0.0,
+        "avg_batch_time_ms": 8.281923281252546
+      }
+    },
+    {
+      "benchmark": "dataloader",
+      "test": "dataloader_config_32_4",
+      "timestamp": "2025-07-18T17:44:04.497721",
+      "metrics": {
+        "batch_size": 32,
+        "num_workers": 4,
+        "pin_memory": true,
+        "prefetch_factor": 2,
+        "total_time_s": 0.26983715999995184,
+        "total_batches": 16,
+        "total_samples": 500,
+        "batches_per_second": 59.295020745114776,
+        "samples_per_second": 1852.9693982848369,
+        "read_throughput_MB_s": 0.0,
+        "read_iops": 0.0,
+        "avg_batch_time_ms": 16.86482249999699
+      }
+    },
+    {
+      "benchmark": "dataloader",
+      "test": "dataloader_config_64_4",
+      "timestamp": "2025-07-18T17:44:05.224183",
+      "metrics": {
+        "batch_size": 64,
+        "num_workers": 4,
+        "pin_memory": true,
+        "prefetch_factor": 2,
+        "total_time_s": 0.2402777579998201,
+        "total_batches": 8,
+        "total_samples": 500,
+        "batches_per_second": 33.29480042845243,
+        "samples_per_second": 2080.9250267782772,
+        "read_throughput_MB_s": 0.0,
+        "read_iops": 0.0,
+        "avg_batch_time_ms": 30.034719749977512
+      }
+    },
+    {
+      "benchmark": "dataloader",
+      "test": "dataloader_config_128_4",
+      "timestamp": "2025-07-18T17:44:06.443202",
+      "metrics": {
+        "batch_size": 128,
+        "num_workers": 4,
+        "pin_memory": true,
+        "prefetch_factor": 2,
+        "total_time_s": 0.3435770590001539,
+        "total_batches": 4,
+        "total_samples": 500,
+        "batches_per_second": 11.64222085036885,
+        "samples_per_second": 1455.2776062961061,
+        "read_throughput_MB_s": 0.0,
+        "read_iops": 0.0,
+        "avg_batch_time_ms": 85.89426475003847
+      }
+    },
+    {
+      "benchmark": "dataloader",
+      "test": "dataloader_config_32_4",
+      "timestamp": "2025-07-18T17:44:06.910174",
+      "metrics": {
+        "batch_size": 32,
+        "num_workers": 4,
+        "pin_memory": true,
+        "prefetch_factor": 1,
+        "total_time_s": 0.25560188800000105,
+        "total_batches": 16,
+        "total_samples": 500,
+        "batches_per_second": 62.59734669878469,
+        "samples_per_second": 1956.1670843370216,
+        "read_throughput_MB_s": 0.0,
+        "read_iops": 0.0,
+        "avg_batch_time_ms": 15.975118000000066
+      }
+    },
+    {
+      "benchmark": "dataloader",
+      "test": "dataloader_config_32_4",
+      "timestamp": "2025-07-18T17:44:07.393048",
+      "metrics": {
+        "batch_size": 32,
+        "num_workers": 4,
+        "pin_memory": true,
+        "prefetch_factor": 2,
+        "total_time_s": 0.2938278780000019,
+        "total_batches": 16,
+        "total_samples": 500,
+        "batches_per_second": 54.45364854045571,
+        "samples_per_second": 1701.676516889241,
+        "read_throughput_MB_s": 0.0,
+        "read_iops": 0.0,
+        "avg_batch_time_ms": 18.364242375000117
+      }
+    },
+    {
+      "benchmark": "dataloader",
+      "test": "dataloader_config_32_4",
+      "timestamp": "2025-07-18T17:44:07.915814",
+      "metrics": {
+        "batch_size": 32,
+        "num_workers": 4,
+        "pin_memory": true,
+        "prefetch_factor": 4,
+        "total_time_s": 0.31560827800012703,
+        "total_batches": 16,
+        "total_samples": 500,
+        "batches_per_second": 50.69575519813698,
+        "samples_per_second": 1584.2423499417805,
+        "read_throughput_MB_s": 0.0,
+        "read_iops": 0.0,
+        "avg_batch_time_ms": 19.72551737500794
+      }
+    },
+    {
+      "benchmark": "dataloader",
+      "test": "dataloader_config_32_4",
+      "timestamp": "2025-07-18T17:44:08.441351",
+      "metrics": {
+        "batch_size": 32,
+        "num_workers": 4,
+        "pin_memory": true,
+        "prefetch_factor": 8,
+        "total_time_s": 0.3146885010000915,
+        "total_batches": 16,
+        "total_samples": 500,
+        "batches_per_second": 50.8439296293046,
+        "samples_per_second": 1588.8728009157685,
+        "read_throughput_MB_s": 0.0,
+        "read_iops": 0.0,
+        "avg_batch_time_ms": 19.66803131250572
+      }
+    },
+    {
+      "benchmark": "dataloader",
+      "test": "dataloader_config_32_4",
+      "timestamp": "2025-07-18T17:44:08.787871",
+      "metrics": {
+        "batch_size": 32,
+        "num_workers": 4,
+        "pin_memory": false,
+        "prefetch_factor": 2,
+        "total_time_s": 0.18811940099999447,
+        "total_batches": 16,
+        "total_samples": 500,
+        "batches_per_second": 85.05236522627706,
+        "samples_per_second": 2657.886413321158,
+        "read_throughput_MB_s": 0.0,
+        "read_iops": 0.0,
+        "avg_batch_time_ms": 11.757462562499654
+      }
+    },
+    {
+      "benchmark": "dataloader",
+      "test": "dataloader_config_32_4",
+      "timestamp": "2025-07-18T17:44:09.249168",
+      "metrics": {
+        "batch_size": 32,
+        "num_workers": 4,
+        "pin_memory": true,
+        "prefetch_factor": 2,
+        "total_time_s": 0.26047400899983586,
+        "total_batches": 16,
+        "total_samples": 500,
+        "batches_per_second": 61.426474224574484,
+        "samples_per_second": 1919.5773195179527,
+        "read_throughput_MB_s": 0.0,
+        "read_iops": 0.0,
+        "avg_batch_time_ms": 16.27962556248974
+      }
+    }
+  ]
+}

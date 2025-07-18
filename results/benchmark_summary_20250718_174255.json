@@ -1,0 +1,79 @@
+{
+  "start_time": "2025-07-18T17:42:16.715984",
+  "end_time": "2025-07-18T17:42:55.146135",
+  "total_elapsed_seconds": 38.430151,
+  "benchmarks": {
+    "dataset_loading": {
+      "status": "completed",
+      "elapsed_time": 2.1909730434417725,
+      "results_file": "results/dataset_loading_20250718_174218.json",
+      "summary": {
+        "sequential_read_iops": 191.56158671927295,
+        "sequential_read_images_per_s": 1243.9064072680062,
+        "random_read_iops": null,
+        "random_read_images_per_s": 1143.3138961051618,
+        "batch_read_iops": null,
+        "batch_read_images_per_s": 1384.5876864707584
+      }
+    },
+    "checkpoint_io": {
+      "status": "completed",
+      "elapsed_time": 2.7327795028686523,
+      "results_file": "results/checkpoint_io_20250718_174221.json",
+      "summary": {
+        "save_checkpoint_small_iops": 0.0,
+        "load_checkpoint_small_iops": 1165.556409424007,
+        "save_checkpoint_medium_iops": 0.0,
+        "load_checkpoint_medium_iops": null,
+        "save_checkpoint_large_iops": 0.0,
+        "load_checkpoint_large_iops": null
+      }
+    },
+    "tensor_io": {
+      "status": "completed",
+      "elapsed_time": 23.953552961349487,
+      "results_file": "results/tensor_io_20250718_174244.json",
+      "summary": {
+        "single_tensor_tiny_iops": null,
+        "single_tensor_small_iops": null,
+        "single_tensor_medium_iops": null,
+        "single_tensor_large_iops": null,
+        "single_tensor_xlarge_iops": null,
+        "single_tensor_embedding_iops": null,
+        "single_tensor_batch_small_iops": null,
+        "single_tensor_batch_large_iops": null
+      }
+    },
+    "dataloader": {
+      "status": "completed",
+      "elapsed_time": 9.552056789398193,
+      "results_file": "results/dataloader_20250718_174255.json",
+      "summary": {
+        "dataloader_config_32_0_iops": null,
+        "dataloader_config_32_0_samples_per_s": 1726.1273642483184,
+        "dataloader_config_32_1_iops": null,
+        "dataloader_config_32_1_samples_per_s": 838.5320784888318,
+        "dataloader_config_32_2_iops": null,
+        "dataloader_config_32_2_samples_per_s": 1497.7033079220657,
+        "dataloader_config_32_4_iops": null,
+        "dataloader_config_32_4_samples_per_s": 1916.059084011716,
+        "dataloader_config_32_8_iops": null,
+        "dataloader_config_32_8_samples_per_s": 1489.0953872389387,
+        "dataloader_config_8_4_iops": null,
+        "dataloader_config_8_4_samples_per_s": 1845.6717907566206,
+        "dataloader_config_16_4_iops": null,
+        "dataloader_config_16_4_samples_per_s": 2025.003676190483,
+        "dataloader_config_64_4_iops": null,
+        "dataloader_config_64_4_samples_per_s": 2125.453073797201,
+        "dataloader_config_128_4_iops": null,
+        "dataloader_config_128_4_samples_per_s": 1241.1950954219087
+      }
+    }
+  },
+  "system_info": {
+    "platform": "linux",
+    "python_version": "3.10.12 (main, May 27 2025, 17:12:29) [GCC 11.4.0]",
+    "cuda_available": true,
+    "cuda_device": "NVIDIA GeForce RTX 4090"
+  }
+}

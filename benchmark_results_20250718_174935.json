@@ -1,0 +1,173 @@
+{
+  "metadata": {
+    "start_time": "2025-07-18T17:49:30.119444",
+    "device": "cuda",
+    "cuda_device": "NVIDIA GeForce RTX 4090",
+    "platform": "linux",
+    "python_version": "3.10.12",
+    "torch_version": "2.5.0.dev20240705+cu121",
+    "end_time": "2025-07-18T17:49:35.548711",
+    "total_elapsed_seconds": 5.429266929626465
+  },
+  "benchmarks": {
+    "tensor_io": {
+      "status": "completed",
+      "results": [
+        {
+          "benchmark": "tensor_io",
+          "test": "single_small",
+          "timestamp": "2025-07-18T17:49:30.282124",
+          "metrics": {
+            "tensor_shape": [
+              1000,
+              1000
+            ],
+            "size_MB": 3.814697265625,
+            "save_time": 0.004807729000049221,
+            "load_time": 0.003425546000016766,
+            "write_throughput_MB_s": 0.0,
+            "read_throughput_MB_s": 0.0,
+            "write_iops": 0.0,
+            "read_iops": 0.0
+          }
+        },
+        {
+          "benchmark": "tensor_io",
+          "test": "single_medium",
+          "timestamp": "2025-07-18T17:49:30.615834",
+          "metrics": {
+            "tensor_shape": [
+              224,
+              224,
+              512
+            ],
+            "size_MB": 98.0,
+            "save_time": 0.11619558899997173,
+            "load_time": 0.07684365199997956,
+            "write_throughput_MB_s": 0.0,
+            "read_throughput_MB_s": 0.0,
+            "write_iops": 0.0,
+            "read_iops": 0.0
+          }
+        },
+        {
+          "benchmark": "tensor_io",
+          "test": "single_large",
+          "timestamp": "2025-07-18T17:49:34.117663",
+          "metrics": {
+            "tensor_shape": [
+              1024,
+              1024,
+              256
+            ],
+            "size_MB": 1024.0,
+            "save_time": 1.1846972999999252,
+            "load_time": 0.7521261990000312,
+            "write_throughput_MB_s": 16.964380901350303,
+            "read_throughput_MB_s": 0.0,
+            "write_iops": 32.91980153918006,
+            "read_iops": 0.0
+          }
+        }
+      ]
+    },
+    "checkpoint_io": {
+      "status": "completed",
+      "results": [
+        {
+          "benchmark": "checkpoint_io",
+          "test": "small",
+          "timestamp": "2025-07-18T17:49:34.326774",
+          "metrics": {
+            "num_params": 1000000,
+            "checkpoint_size_MB": 3.8200817108154297,
+            "save_time": 0.0033668429998670035,
+            "load_time": 0.0020196959999339015,
+            "write_throughput_MB_s": 0.0,
+            "read_throughput_MB_s": 0.0
+          }
+        },
+        {
+          "benchmark": "checkpoint_io",
+          "test": "medium",
+          "timestamp": "2025-07-18T17:49:34.428282",
+          "metrics": {
+            "num_params": 10000000,
+            "checkpoint_size_MB": 38.153085708618164,
+            "save_time": 0.03138104100003147,
+            "load_time": 0.01819092300002012,
+            "write_throughput_MB_s": 0.0,
+            "read_throughput_MB_s": 0.0
+          }
+        },
+        {
+          "benchmark": "checkpoint_io",
+          "test": "large",
+          "timestamp": "2025-07-18T17:49:34.920068",
+          "metrics": {
+            "num_params": 50000000,
+            "checkpoint_size_MB": 190.7645435333252,
+            "save_time": 0.15647815400006948,
+            "load_time": 0.08981964299982792,
+            "write_throughput_MB_s": 0.04992709717163797,
+            "read_throughput_MB_s": 0.0
+          }
+        }
+      ]
+    },
+    "dataset_loading": {
+      "status": "completed",
+      "results": [
+        {
+          "benchmark": "dataset_loading",
+          "test": "sequential_loading",
+          "timestamp": "2025-07-18T17:49:35.018796",
+          "metrics": {
+            "num_images": 100,
+            "total_time": 0.03453869800000575,
+            "images_per_second": 2895.303117679287,
+            "read_throughput_MB_s": 0.0
+          }
+        }
+      ]
+    },
+    "dataloader": {
+      "status": "completed",
+      "results": [
+        {
+          "benchmark": "dataloader",
+          "test": "workers_0",
+          "timestamp": "2025-07-18T17:49:35.181844",
+          "metrics": {
+            "num_workers": 0,
+            "batch_size": 32,
+            "total_time": 0.11773182000001725,
+            "samples_per_second": 849.3880413976897
+          }
+        },
+        {
+          "benchmark": "dataloader",
+          "test": "workers_2",
+          "timestamp": "2025-07-18T17:49:35.376664",
+          "metrics": {
+            "num_workers": 2,
+            "batch_size": 32,
+            "total_time": 0.19354451200001677,
+            "samples_per_second": 516.6770112292894
+          }
+        },
+        {
+          "benchmark": "dataloader",
+          "test": "workers_4",
+          "timestamp": "2025-07-18T17:49:35.546096",
+          "metrics": {
+            "num_workers": 4,
+            "batch_size": 32,
+            "total_time": 0.1679201119998197,
+            "samples_per_second": 595.5212797863509
+          }
+        }
+      ]
+    }
+  }
+}

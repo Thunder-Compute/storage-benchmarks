@@ -1,0 +1,59 @@
+{
+  "benchmark": "dataset_loading",
+  "device": "cuda",
+  "timestamp": "2025-07-18T17:42:18.894048",
+  "results": [
+    {
+      "benchmark": "dataset_loading",
+      "test": "sequential_read",
+      "timestamp": "2025-07-18T17:42:17.610974",
+      "metrics": {
+        "elapsed_time_s": 0.4019595019999542,
+        "images_per_second": 1243.9064072680062,
+        "read_throughput_MB_s": 17.22032932561646,
+        "read_iops": 191.56158671927295,
+        "total_read_MB": 6.921875
+      }
+    },
+    {
+      "benchmark": "dataset_loading",
+      "test": "random_read",
+      "timestamp": "2025-07-18T17:42:18.049686",
+      "metrics": {
+        "elapsed_time_s": 0.4373252190000585,
+        "images_per_second": 1143.3138961051618,
+        "read_throughput_MB_s": 0.0,
+        "read_iops": 0.0,
+        "total_read_MB": 0.0
+      }
+    },
+    {
+      "benchmark": "dataset_loading",
+      "test": "batch_read",
+      "timestamp": "2025-07-18T17:42:18.474179",
+      "metrics": {
+        "elapsed_time_s": 0.36338204300000143,
+        "images_per_second": 1375.9623229373447,
+        "batches_per_second": 41.27886968812034,
+        "read_throughput_MB_s": 5.783341638596027,
+        "read_iops": 57.79041756336847,
+        "total_read_MB": 2.1015625,
+        "batch_size": 32
+      }
+    },
+    {
+      "benchmark": "dataset_loading",
+      "test": "batch_read",
+      "timestamp": "2025-07-18T17:42:18.864801",
+      "metrics": {
+        "elapsed_time_s": 0.36111833500012835,
+        "images_per_second": 1384.5876864707584,
+        "batches_per_second": 19.384227610590617,
+        "read_throughput_MB_s": 0.0,
+        "read_iops": 0.0,
+        "total_read_MB": 0.0,
+        "batch_size": 64
+      }
+    }
+  ]
+}

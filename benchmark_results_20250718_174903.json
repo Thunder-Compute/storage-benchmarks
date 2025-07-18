@@ -1,0 +1,139 @@
+{
+  "metadata": {
+    "start_time": "2025-07-18T17:48:57.943911",
+    "device": "cuda",
+    "cuda_device": "NVIDIA GeForce RTX 4090",
+    "platform": "linux",
+    "python_version": "3.10.12",
+    "torch_version": "2.5.0.dev20240705+cu121",
+    "end_time": "2025-07-18T17:49:03.129310",
+    "total_elapsed_seconds": 5.1853978633880615
+  },
+  "benchmarks": {
+    "tensor_io": {
+      "status": "completed",
+      "results": [
+        {
+          "benchmark": "tensor_io",
+          "test": "single_small",
+          "timestamp": "2025-07-18T17:48:58.119021",
+          "metrics": {
+            "tensor_shape": [
+              1000,
+              1000
+            ],
+            "size_MB": 3.814697265625,
+            "save_time": 0.004815333999886207,
+            "load_time": 0.003374418000021251,
+            "write_throughput_MB_s": 0.0,
+            "read_throughput_MB_s": 0.0,
+            "write_iops": 0.0,
+            "read_iops": 0.0
+          }
+        },
+        {
+          "benchmark": "tensor_io",
+          "test": "single_medium",
+          "timestamp": "2025-07-18T17:48:58.464629",
+          "metrics": {
+            "tensor_shape": [
+              224,
+              224,
+              512
+            ],
+            "size_MB": 98.0,
+            "save_time": 0.11442928500014204,
+            "load_time": 0.07583438100004969,
+            "write_throughput_MB_s": 0.0,
+            "read_throughput_MB_s": 0.0,
+            "write_iops": 0.0,
+            "read_iops": 0.0
+          }
+        },
+        {
+          "benchmark": "tensor_io",
+          "test": "single_large",
+          "timestamp": "2025-07-18T17:49:01.979483",
+          "metrics": {
+            "tensor_shape": [
+              1024,
+              1024,
+              256
+            ],
+            "size_MB": 1024.0,
+            "save_time": 1.1989186630000859,
+            "load_time": 0.791581812000004,
+            "write_throughput_MB_s": 0.006516288586625697,
+            "read_throughput_MB_s": 0.0,
+            "write_iops": 1.6681698781761785,
+            "read_iops": 0.0
+          }
+        }
+      ]
+    },
+    "checkpoint_io": {
+      "status": "completed",
+      "results": [
+        {
+          "benchmark": "checkpoint_io",
+          "test": "small",
+          "timestamp": "2025-07-18T17:49:02.196569",
+          "metrics": {
+            "num_params": 1000000,
+            "checkpoint_size_MB": 3.8200817108154297,
+            "save_time": 0.003651664000017263,
+            "load_time": 0.0023179419999905804,
+            "write_throughput_MB_s": 0.0,
+            "read_throughput_MB_s": 0.0
+          }
+        },
+        {
+          "benchmark": "checkpoint_io",
+          "test": "medium",
+          "timestamp": "2025-07-18T17:49:02.418867",
+          "metrics": {
+            "num_params": 10000000,
+            "checkpoint_size_MB": 38.153085708618164,
+            "save_time": 0.14867101400000138,
+            "load_time": 0.023351352999952724,
+            "write_throughput_MB_s": 0.05254891178720236,
+            "read_throughput_MB_s": 0.0
+          }
+        },
+        {
+          "benchmark": "checkpoint_io",
+          "test": "large",
+          "timestamp": "2025-07-18T17:49:02.992247",
+          "metrics": {
+            "num_params": 50000000,
+            "checkpoint_size_MB": 190.7645435333252,
+            "save_time": 0.1982701139997971,
+            "load_time": 0.14689988500003892,
+            "write_throughput_MB_s": 0.0,
+            "read_throughput_MB_s": 0.0
+          }
+        }
+      ]
+    },
+    "dataset_loading": {
+      "status": "completed",
+      "results": [
+        {
+          "benchmark": "dataset_loading",
+          "test": "sequential_loading",
+          "timestamp": "2025-07-18T17:49:03.088587",
+          "metrics": {
+            "num_images": 100,
+            "total_time": 0.03366916599998149,
+            "images_per_second": 2970.076538280009,
+            "read_throughput_MB_s": 0.0
+          }
+        }
+      ]
+    },
+    "dataloader": {
+      "status": "failed",
+      "error": "Found no valid file for the classes .X11-unix, pyright-20992-2DJRp02RQqlH, pyright-20992-zNk4ep1DSLzI, python-languageserver-cancellation, snap-private-tmp, systemd-private-9ace574a73584bbc8369e02a27667e10-systemd-logind.service-vU6Vpx, systemd-private-9ace574a73584bbc8369e02a27667e10-systemd-resolved.service-GGXrmh, tmpt7xmz2_z, vscode-typescript1000. Supported extensions are: .jpg, .jpeg, .png, .ppm, .bmp, .pgm, .tif, .tiff, .webp"
+    }
+  }
+}

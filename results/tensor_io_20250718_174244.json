@@ -1,0 +1,216 @@
+{
+  "benchmark": "tensor_io",
+  "device": "cuda",
+  "timestamp": "2025-07-18T17:42:44.224675",
+  "results": [
+    {
+      "benchmark": "tensor_io",
+      "test": "single_tensor_tiny",
+      "timestamp": "2025-07-18T17:42:21.643456",
+      "metrics": {
+        "tensor_name": "tiny",
+        "tensor_shape": [
+          100,
+          100
+        ],
+        "tensor_size_mb": 0.03814697265625,
+        "save_time_s": 0.00028879800015602086,
+        "load_time_s": 0.0003421090000301774,
+        "save_throughput_MB_s": 0.0,
+        "load_throughput_MB_s": 0.0,
+        "save_iops": 0.0,
+        "load_iops": 0.0
+      }
+    },
+    {
+      "benchmark": "tensor_io",
+      "test": "single_tensor_small",
+      "timestamp": "2025-07-18T17:42:21.650488",
+      "metrics": {
+        "tensor_name": "small",
+        "tensor_shape": [
+          1000,
+          1000
+        ],
+        "tensor_size_mb": 3.814697265625,
+        "save_time_s": 0.003025616000059017,
+        "load_time_s": 0.00043125900015184016,
+        "save_throughput_MB_s": 0.0,
+        "load_throughput_MB_s": 0.0,
+        "save_iops": 0.0,
+        "load_iops": 0.0
+      }
+    },
+    {
+      "benchmark": "tensor_io",
+      "test": "single_tensor_medium",
+      "timestamp": "2025-07-18T17:42:21.876636",
+      "metrics": {
+        "tensor_name": "medium",
+        "tensor_shape": [
+          224,
+          224,
+          512
+        ],
+        "tensor_size_mb": 98.0,
+        "save_time_s": 0.0799294060000193,
+        "load_time_s": 0.041319125999962125,
+        "save_throughput_MB_s": 0.0,
+        "load_throughput_MB_s": 0.0,
+        "save_iops": 0.0,
+        "load_iops": 0.0
+      }
+    },
+    {
+      "benchmark": "tensor_io",
+      "test": "single_tensor_large",
+      "timestamp": "2025-07-18T17:42:25.069560",
+      "metrics": {
+        "tensor_name": "large",
+        "tensor_shape": [
+          1024,
+          1024,
+          256
+        ],
+        "tensor_size_mb": 1024.0,
+        "save_time_s": 1.1823113970001486,
+        "load_time_s": 0.7500073849998898,
+        "save_throughput_MB_s": 11.61654622872444,
+        "load_throughput_MB_s": 0.0,
+        "save_iops": 181.00138469693962,
+        "load_iops": 0.0
+      }
+    },
+    {
+      "benchmark": "tensor_io",
+      "test": "single_tensor_xlarge",
+      "timestamp": "2025-07-18T17:42:38.443282",
+      "metrics": {
+        "tensor_name": "xlarge",
+        "tensor_shape": [
+          4096,
+          4096,
+          64
+        ],
+        "tensor_size_mb": 4096.0,
+        "save_time_s": 4.69869673900007,
+        "load_time_s": 3.0593181280000863,
+        "save_throughput_MB_s": 10.534004746289131,
+        "load_throughput_MB_s": 0.0,
+        "save_iops": 16.81317275581654,
+        "load_iops": 0.0
+      }
+    },
+    {
+      "benchmark": "tensor_io",
+      "test": "single_tensor_embedding",
+      "timestamp": "2025-07-18T17:42:39.240690",
+      "metrics": {
+        "tensor_name": "embedding",
+        "tensor_shape": [
+          10000,
+          768
+        ],
+        "tensor_size_mb": 29.296875,
+        "save_time_s": 0.02560897900002601,
+        "load_time_s": 0.0030747470000278554,
+        "save_throughput_MB_s": 0.0,
+        "load_throughput_MB_s": 0.0,
+        "save_iops": 0.0,
+        "load_iops": 0.0
+      }
+    },
+    {
+      "benchmark": "tensor_io",
+      "test": "single_tensor_batch_small",
+      "timestamp": "2025-07-18T17:42:39.272359",
+      "metrics": {
+        "tensor_name": "batch_small",
+        "tensor_shape": [
+          32,
+          3,
+          224,
+          224
+        ],
+        "tensor_size_mb": 18.375,
+        "save_time_s": 0.01606616600020061,
+        "load_time_s": 0.001670101000172508,
+        "save_throughput_MB_s": 0.0,
+        "load_throughput_MB_s": 0.0,
+        "save_iops": 0.0,
+        "load_iops": 0.0
+      }
+    },
+    {
+      "benchmark": "tensor_io",
+      "test": "single_tensor_batch_large",
+      "timestamp": "2025-07-18T17:42:39.441527",
+      "metrics": {
+        "tensor_name": "batch_large",
+        "tensor_shape": [
+          128,
+          3,
+          224,
+          224
+        ],
+        "tensor_size_mb": 73.5,
+        "save_time_s": 0.07149569100010922,
+        "load_time_s": 0.045067355999890424,
+        "save_throughput_MB_s": 0.0,
+        "load_throughput_MB_s": 0.0,
+        "save_iops": 0.0,
+        "load_iops": 0.0
+      }
+    },
+    {
+      "benchmark": "tensor_io",
+      "test": "numpy_format_numpy_small",
+      "timestamp": "2025-07-18T17:42:39.577478",
+      "metrics": {
+        "array_shape": [
+          1000,
+          1000
+        ],
+        "array_size_mb": 3.814697265625,
+        "npy_save_time_s": 0.002553145999854678,
+        "npy_load_time_s": 0.0005961619999652612,
+        "npz_save_time_s": 0.09767074599994885,
+        "npz_load_time_s": 0.014139454000087426,
+        "npz_compressed_size_mb": 3.53326416015625,
+        "compression_ratio": 1.0796524382870667
+      }
+    },
+    {
+      "benchmark": "tensor_io",
+      "test": "numpy_format_numpy_large",
+      "timestamp": "2025-07-18T17:42:41.662754",
+      "metrics": {
+        "array_shape": [
+          4096,
+          4096
+        ],
+        "array_size_mb": 64.0,
+        "npy_save_time_s": 0.04020814299997255,
+        "npy_load_time_s": 0.006087835000016639,
+        "npz_save_time_s": 1.6243768790000104,
+        "npz_load_time_s": 0.20910526700004084,
+        "npz_compressed_size_mb": 59.276448249816895,
+        "compression_ratio": 1.0796868214889663
+      }
+    },
+    {
+      "benchmark": "tensor_io",
+      "test": "multi_tensor_save",
+      "timestamp": "2025-07-18T17:42:44.198631",
+      "metrics": {
+        "num_tensors": 50,
+        "total_size_mb": 800.0,
+        "individual_save_time_s": 0.6676610569998047,
+        "single_file_save_time_s": 1.075370747000079,
+        "individual_throughput_MB_s": 0.0,
+        "single_file_throughput_MB_s": 0.007264936322467609,
+        "speedup_factor": 0.6208659282041598
+      }
+    }
+  ]
+}
